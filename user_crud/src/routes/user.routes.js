@@ -1,6 +1,6 @@
 const express = require("express");
 const { userController } = require("../controllers");
-const postsRoutes = require('./posts.routes');
+const postsRoutes = require('../../../post_yap_assignment/src/routes/posts.routes');
 
 const userRoutes = express.Router({});
 
