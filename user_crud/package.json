@@ -1,14 +1,14 @@
 {
-  "name": "yap_assignment",
+  "name": "crud_assignment",
   "version": "1.0.0",
   "description": "A sample Yap project",
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rashg05/yap_assignment.git"
+    "url": "git+https://github.com/rashg05/Yapsody.git"
   },
   "bugs": {
-    "url": "https://github.com/rashg05/yap_assignment/issues"
+    "url": "https://github.com/rashg05/Yapsody/issues"
   },
   "private": true,
   "scripts": {

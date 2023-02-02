@@ -1,6 +1,46 @@
 {
+  "name": "crud_assignment",
+  "version": "1.0.0",
+  "description": "A sample Yap project",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rashg05/Yapsody.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rashg05/Yapsody/issues"
+  },
+  "private": true,
+  "scripts": {
+    "start": "node ./src/app.js",
+    "dev": "nodemon ./src/app.js",
+    "build": "npm install --production --silent",
+    "test": "nyc --reporter=lcovonly --report-dir=reports mocha -t 20000 ./test --exit",
+    "lint": "eslint ./src",
+    "lintfix": "eslint ./src --fix"
+  },
   "dependencies": {
+    "@yapsody/lib-handlers": "^1.0.56",
+    "@yapsody/lib-utils": "^1.0.27",
+    "@yapsody/lib-validations": "^2.0.10",
     "axios": "^1.2.6",
-    "express": "^4.18.2"
+    "compression": "^1.7.4",
+    "config": "^3.3.9",
+    "cors": "^2.8.5",
+    "dd-trace": "^3.8.0",
+    "express": "^4.18.2",
+    "helmet": "^5.1.1",
+    "joi": "^17.7.0",
+    "mysql2": "^2.3.3",
+    "require-stack": "^1.0.2",
+    "sequelize": "^6.25.8"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
+    "dotenv": "^16.0.3",
+    "mocha": "^10.1.0",
+    "nodemon": "^2.0.20",
+    "nyc": "^15.1.0"
   }
 }
