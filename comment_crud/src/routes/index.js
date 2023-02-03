@@ -4,8 +4,8 @@ const { error } = require('@yapsody/lib-handlers');
 
 const apiRoutes = express.Router();
 
-const userRoutes = require('../../../user_crud/src/routes/user.routes');
-// const postsRoutes = require('./posts.routes');
+// const userRoutes = require('../../../user_crud/src/routes/user.routes');
+const postsRoutes = require('./posts.routes');
 // const commentsRoutes = require('./comments.routes');
 
 apiRoutes.use('/users', [userRoutes]);

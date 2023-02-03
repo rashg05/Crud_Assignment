@@ -8,6 +8,7 @@ const {
   updatePostValidation,
 } = require("../validations");
 const { checkChanges } = require('@yapsody/lib-utils');
+const axios = require('axios');
 
 
 const addPosts = async (req, res, next) => {
@@ -35,7 +36,8 @@ const addPosts = async (req, res, next) => {
 };
 
 const getAllPosts = async (req, res, next) => {
-  const { user_id } = req.params;
+  const user_id = req.headers['user-id'];
+  // const { user_id } = req.params;
   console.log(user_id, "---------->");
   const reqData = { ...req.query };
   if (reqData.ids) {
@@ -45,7 +47,7 @@ const getAllPosts = async (req, res, next) => {
     const { page_no, page_size, sort_by, sort_order, search } =
       await getListValidation.validateAsync(reqData);
     const userId = await getId.validateAsync(user_id);
-    await userService.getOne({ id: user_id });
+    // await userService.getOne({ id: user_id });
 
     const posts = await postsService.getAllPosts({
       userId,
@@ -62,8 +64,7 @@ const getAllPosts = async (req, res, next) => {
 };
 
 const getPostById = async (req, res, next) => {
-  const { user_id } = req.params;
-  const { post_id } = req.params;
+  const { user_id, post_id } = req.params;
   console.log(user_id, "---------->");
   console.log(post_id, "------->");
   try {
@@ -81,8 +82,7 @@ const getPostById = async (req, res, next) => {
 };
 
 const deleteOnePost = async (req, res, next) => {
-  const { user_id } = req.params;
-  const { post_id } = req.params;
+  const { user_id, post_id } = req.params;
   const { force_update } = req.query;
   console.log(user_id, "---------->");
   console.log(post_id, "------->");
@@ -103,8 +103,7 @@ const deleteOnePost = async (req, res, next) => {
 };
 
 const updateOnePost = async (req, res, next) => {
-  const { user_id } = req.params;
-  const { post_id } = req.params;
+  const { user_id, post_id } = req.params;
   const enableFlag = req.query.enable;
   console.log(user_id, "---------->");
   console.log(post_id, "------->");
