@@ -12,14 +12,15 @@ const axios = require('axios');
 
 
 const addPosts = async (req, res, next) => {
-  const { user_id } = req.params;
+  const user_id = req.headers['user-id'];
+  // const { user_id } = req.params;
   console.log(user_id, "---------->");
   try {
     const { title, description } = await addPostsValidation.validateAsync(
       req.body
     );
     const userId = await getId.validateAsync(user_id);
-    await userService.getOne({ id: user_id });
+    // await userService.getOne({ id: user_id });
     const post = await postsService.addPosts({ userId, title, description });
     return success.handler({ post }, req, res, next);
   } catch (err) {
@@ -64,12 +65,13 @@ const getAllPosts = async (req, res, next) => {
 };
 
 const getPostById = async (req, res, next) => {
-  const { user_id, post_id } = req.params;
+  const user_id = req.headers['user-id'];
+  const { post_id } = req.params;
   console.log(user_id, "---------->");
   console.log(post_id, "------->");
   try {
     const userId = await getId.validateAsync(user_id);
-    await userService.getOne({ id: user_id });
+    // await userService.getOne({ id: user_id });
     const id = await getId.validateAsync(post_id);
     const posts = await postsService.getPostById({
       userId,
@@ -82,14 +84,15 @@ const getPostById = async (req, res, next) => {
 };
 
 const deleteOnePost = async (req, res, next) => {
-  const { user_id, post_id } = req.params;
+  const user_id = req.headers['user-id'];
+  const { post_id } = req.params;
   const { force_update } = req.query;
   console.log(user_id, "---------->");
   console.log(post_id, "------->");
   try {
     await recoveryParamsValidation.validateAsync(force_update);
     const userId = await getId.validateAsync(user_id);
-    await userService.getOne({ id: user_id });
+    // await userService.getOne({ id: user_id });
     const id = await getId.validateAsync(post_id);
     const post = await postsService.deleteOnePost({
       userId,
@@ -103,13 +106,14 @@ const deleteOnePost = async (req, res, next) => {
 };
 
 const updateOnePost = async (req, res, next) => {
-  const { user_id, post_id } = req.params;
+  const user_id = req.headers['user-id'];
+  const { post_id } = req.params;
   const enableFlag = req.query.enable;
   console.log(user_id, "---------->");
   console.log(post_id, "------->");
   try {
     const userId = await getId.validateAsync(user_id);
-    await userService.getOne({ id: user_id });
+    // await userService.getOne({ id: user_id });
     const id = await getId.validateAsync(post_id);
     const { title, description, enable } =
       await updatePostValidation.validateAsync({
