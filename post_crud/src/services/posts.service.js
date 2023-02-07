@@ -7,9 +7,9 @@ const { STATUS } = require('../consts');
 
 const addPosts = async ({ title, description, userId }) => {
   const post = await PostsModel.create({
+    userId,
     title,
     description,
-    user_id: userId,
   });
   return post;
 };
@@ -19,23 +19,10 @@ const getAllPosts = async ({
   page_size,
   sort_by,
   sort_order,
-  search,
   userId,
 }) => {
   const limit = page_size;
   const offset = (page_no - 1) * limit;
-
-  // const id = await PostsModel.findOne({
-  //   where: {
-  //     user_id: userId,
-  //   },
-  // });
-
-  // if (search) {
-  //   where.id = {
-  //     [Op.like]: `%${search}%`,
-  //   };
-  // }
 
   const order = [];
   order.push([sort_by, sort_order]);
@@ -59,7 +46,7 @@ const getPostById = async ({ userId, id }) => {
 
   const item = await PostsModel.findOne({
     where,
-    include: {model: CommentsModel}
+    // include: {model: CommentsModel}
   });
 
   if (!item) {
@@ -93,7 +80,9 @@ const deleteOnePost = async ({ userId, id, force_update }) => {
 
 const enableOnePost = async ({ userId, id }) => {
   const item = await getPostById({
-    userId,
+    where: {
+      user_id: userId,
+    },
     id,
   });
 
@@ -107,7 +96,9 @@ const enableOnePost = async ({ userId, id }) => {
 
 const disableOnePost = async ({ userId, id }) => {
   const item = await getPostById({
-    userId,
+    where: {
+      user_id: userId,
+    },
     id,
   });
 
