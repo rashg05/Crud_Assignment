@@ -8,6 +8,7 @@ const {
 } = require("../validations");
 const { error, success } = require("@yapsody/lib-handlers");
 const { checkChanges } = require("@yapsody/lib-utils");
+const { CommentsModel } = require("../managers/sequelize.manager");
 
 const addComments = async (req, res, next) => {
   const { user_id } = req.params;
@@ -185,6 +186,16 @@ const updateOneComment = async (req, res, next) => {
   }
 };
 
+const getCommentsListByPostId = async (req, res, next ) => {
+  const postId = req.query.postId;
+  const comments = await CommentsModel.findAll({
+    where: {
+      post_id: postId, 
+    }
+  })
+  return comments;
+}
+
 module.exports = {
   addComments,
   getCommentsList,
@@ -192,4 +203,5 @@ module.exports = {
   deleteOneComment,
   updateOneComment,
   // replyOnComment,
+  getCommentsListByPostId,
 };
