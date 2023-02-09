@@ -20,6 +20,7 @@
     "lintfix": "eslint ./src --fix"
   },
   "dependencies": {
+    "@types/compression": "^1.7.2",
     "@yapsody/lib-handlers": "^1.0.56",
     "@yapsody/lib-utils": "^1.0.27",
     "@yapsody/lib-validations": "^2.0.10",

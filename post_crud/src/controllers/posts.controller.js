@@ -9,6 +9,7 @@ const {
 } = require("../validations");
 const { checkChanges } = require('@yapsody/lib-utils');
 const axios = require('axios');
+const { getCommentsByPostId } = require("../services/comments.service");
 
 
 const addPosts = async (req, res, next) => {
@@ -70,14 +71,16 @@ const getPostById = async (req, res, next) => {
   console.log(user_id, "---------->");
   console.log(post_id, "------->");
   try {
-    const userId = await getId.validateAsync(user_id);
+    // const userId = await getId.validateAsync(user_id);
     // await userService.getOne({ id: user_id });
     const id = await getId.validateAsync(post_id);
     const posts = await postsService.getPostById({
-      userId,
+      user_id,
       id,
     });
-    return success.handler({ posts }, req, res, next);
+    const comments = await getCommentsByPostId({postId: id, userId: user_id});
+    return success.handler({ posts, comments }, req, res, next);
+    
   } catch (err) {
     return error.handler(err, req, res, next);
   }

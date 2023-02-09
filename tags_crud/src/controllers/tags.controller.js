@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 const { error, success } = require("@yapsody/lib-handlers");
-const config = require("../config/user.config.json");
+const config = require("../config/tags.config.json");
 const { addTagValidation, getListValidation, getId, recoveryParamsValidation, updateTagValidation } = require("../validations");
 const { tagsService } = require("../services");
 const { checkChanges } = require('@yapsody/lib-utils');
@@ -27,12 +27,14 @@ const getTagsCount = async (req, res, next) => {
 };
 
 const addOneTag = async (req, res, next) => {
+  const user_id = req.headers['user-id'];
   const reqBody = req.body;
   try {
     const { tag } =
       await addTagValidation.validateAsync(reqBody);
-
+    const userId = await getId.validateAsync(user_id);
     const tag_one = await tagsService.addOneTag({
+      userId,
       tag,
     });
     return success.handler({ tag_one }, req, res, next);

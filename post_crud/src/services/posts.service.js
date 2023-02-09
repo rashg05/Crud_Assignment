@@ -6,8 +6,9 @@ const { STATUS } = require('../consts');
 
 
 const addPosts = async ({ title, description, userId }) => {
+  
   const post = await PostsModel.create({
-    userId,
+    user_id: userId,
     title,
     description,
   });

@@ -14,12 +14,10 @@ const getTagsCount = async ({ search }) => {
   return TagsModel.findAll({});
 };
 
-const addOneTag = async ({ firstname, lastname, emailid, password }) =>
+const addOneTag = async ({ userId, tag }) =>
   TagsModel.create({
-    firstname,
-    lastname,
-    emailid,
-    password,
+    user_id: userId,
+    tag,
   });
 
 const getTagsList = async ({ page_no, page_size, sort_by, sort_order, search }) => {

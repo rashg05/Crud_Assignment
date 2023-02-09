@@ -1,13 +1,13 @@
-const addUserValidation = require('./add-tags.validation');
+const addTagValidation = require('./add-tags.validation');
 const getListValidation = require('./get-list.validation');
 const getId = require('./get-id.validation');
 const recoveryParamsValidation = require('./recovery-params.validations');
-const updateUserValidation = require('./update-tags.validation');
+const updateTagValidation = require('./update-tags.validation');
 
 module.exports = {
-  addUserValidation,
+  addTagValidation,
   getListValidation,
   getId,
   recoveryParamsValidation,
-  updateUserValidation,
+  updateTagValidation,
 };

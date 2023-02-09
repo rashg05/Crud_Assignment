@@ -24,8 +24,8 @@ const sequelize = new Sequelize(config.MYSQL_DB_NAME, config.MYSQL_USERNAME, con
 
 const TagsModel = tags(sequelize, Sequelize);
 
-TagsModel.belongsToMany(PostsModel, { foreignKey: 'post_id'});
-PostsModel.belongsToMany(TagsModel, { foreignKey: 'post_id' });
+// TagsModel.belongsToMany(PostsModel, { foreignKey: 'post_id'});
+// PostsModel.belongsToMany(TagsModel, { foreignKey: 'post_id' });
 
 
 module.exports = {
