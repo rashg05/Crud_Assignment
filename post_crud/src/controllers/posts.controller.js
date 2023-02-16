@@ -115,7 +115,6 @@ const uploadPostCover = async (req, res, next) => {
   try {
     const userId = await getId.validateAsync(user_id);
     const id = await getId.validateAsync(post_id);
-
     const post = await postsService.getPostById({
       userId,
       id,
