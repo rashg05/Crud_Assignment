@@ -11,7 +11,7 @@ const { checkChanges } = require("@yapsody/lib-utils");
 const { CommentsModel } = require("../managers/sequelize.manager");
 
 const addComments = async (req, res, next) => {
-  const { user_id } = req.params;
+  const user_id = req.headers['user-id'];
   const { post_id } = req.params;
   console.log(user_id, "---------->");
   console.log(post_id, "---------->");
@@ -35,7 +35,7 @@ const addComments = async (req, res, next) => {
 };
 
 const getCommentsList = async (req, res, next) => {
-  const { user_id } = req.params;
+  const user_id = req.headers['user-id'];
   const { post_id } = req.params;
   console.log(user_id, "-------->");
   console.log(post_id, "-------->");
@@ -47,10 +47,10 @@ const getCommentsList = async (req, res, next) => {
     const { page_no, page_size, sort_by, sort_order } =
       await getListValidation.validateAsync(reqData);
     const userId = await getId.validateAsync(user_id);
-    await userService.getOne({ id: user_id });
+    // await userService.getOne({ id: user_id });
 
     const postId = await getId.validateAsync(post_id);
-    await postsService.getPostById({ userId, id: post_id });
+    // await postsService.getPostById({ userId, id: post_id });
 
     const comments = await commentsService.getCommentsList({
       userId,
@@ -60,14 +60,31 @@ const getCommentsList = async (req, res, next) => {
       sort_by,
       sort_order,
     });
-    return success.handler({ comments }, req, res, next);
+    const listById = await getCommentsByPostId();
+    console.info(listById, '-->');
+    return success.handler({ comments, listById }, req, res, next);
   } catch (err) {
     return error.handler(err, req, res, next);
   }
 };
 
+const getCommentsByPostId = async (req, res, next ) => {
+  const postId = req.query.postId;
+  try {
+    const comments = await CommentsModel.findAll({
+      where: {
+        post_id: postId, 
+      }
+    })
+    return success.handler({ comments }, req, res, next);
+  } catch (err) {
+    return error.handler(err, req, res, next);
+  }
+  
+}
+
 const getCommentById = async (req, res, next) => {
-  const { user_id } = req.params;
+  const user_id = req.headers['user-id'];
   const { post_id } = req.params;
   const { comment_id } = req.params;
   console.log(user_id, "-------->");
@@ -96,7 +113,7 @@ const getCommentById = async (req, res, next) => {
 };
 
 const deleteOneComment = async (req, res, next) => {
-  const { user_id } = req.params;
+  const user_id = req.headers['user-id'];
   const { post_id } = req.params;
   const { comment_id } = req.params;
   const { force_update } = req.query;
@@ -122,7 +139,8 @@ const deleteOneComment = async (req, res, next) => {
 };
 
 const updateOneComment = async (req, res, next) => {
-  const { user_id, post_id, comment_id } = req.params;
+  const user_id = req.headers['user-id'];
+  const { post_id, comment_id } = req.params;
   const enableFlag = req.query.enable;
   console.log(user_id, "---------->");
   console.log(post_id, "------->");
@@ -186,15 +204,7 @@ const updateOneComment = async (req, res, next) => {
   }
 };
 
-const getCommentsListByPostId = async (req, res, next ) => {
-  const postId = req.query.postId;
-  const comments = await CommentsModel.findAll({
-    where: {
-      post_id: postId, 
-    }
-  })
-  return comments;
-}
+
 
 module.exports = {
   addComments,
@@ -203,5 +213,5 @@ module.exports = {
   deleteOneComment,
   updateOneComment,
   // replyOnComment,
-  getCommentsListByPostId,
+  getCommentsByPostId,
 };

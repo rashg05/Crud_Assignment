@@ -8,7 +8,7 @@ const apiRoutes = express.Router();
 // const postsRoutes = require('./posts.routes');
 const commentsRoutes = require('./comments.routes');
 
-apiRoutes.use('/users', [commentsRoutes]);
+apiRoutes.use('/posts/:post_id/comments', [commentsRoutes]);
 
 apiRoutes.use('*', () => error.throwNotFound({ item: 'Route' }));
 

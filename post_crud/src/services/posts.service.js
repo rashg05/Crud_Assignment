@@ -1,5 +1,5 @@
 const { sequelizeManager } = require("../managers");
-const { PostsModel, CommentsModel } = sequelizeManager;
+const { PostsModel } = sequelizeManager;
 const { error } = require("@yapsody/lib-handlers");
 const { posts } = require("../models");
 const { STATUS } = require('../consts');
@@ -11,6 +11,7 @@ const addPosts = async ({ title, description, userId }) => {
     user_id: userId,
     title,
     description,
+    include: {model: TagsModel}
   });
   return post;
 };
@@ -45,15 +46,15 @@ const getPostById = async ({ userId, id }) => {
     id,
   };
 
-  const item = await PostsModel.findOne({
+  const post = await PostsModel.findOne({
     where,
     // include: {model: CommentsModel}
   });
 
-  if (!item) {
-    return error.throwNotFound({ custom_key: "DataNotFound", item: "postId" });
+  if (!post) {
+    return error.throwNotFound({ custom_key: "DataNotFound", post: "postId" });
   }
-  return item;
+  return post;
 };
 
 const deleteOnePost = async ({ userId, id, force_update }) => {
