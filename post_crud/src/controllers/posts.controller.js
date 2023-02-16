@@ -68,20 +68,21 @@ const getAllPosts = async (req, res, next) => {
 const getPostById = async (req, res, next) => {
   const user_id = req.headers['user-id'];
   const { post_id } = req.params;
-  console.log(user_id, "---------->");
-  console.log(post_id, "------->");
   try {
-    // const userId = await getId.validateAsync(user_id);
+    const userId = await getId.validateAsync(user_id);
     // await userService.getOne({ id: user_id });
     const id = await getId.validateAsync(post_id);
+    console.log(user_id, "---------->");
+    console.log(post_id, "------->");
     const posts = await postsService.getPostById({
-      user_id,
+      userId,
       id,
     });
-    const comments = await getCommentsByPostId({postId: id, userId: user_id});
+    console.info(posts, "-->");
+    const comments = await getCommentsByPostId({postId: id, userId: userId});
     return success.handler({ posts, comments }, req, res, next);
-    
   } catch (err) {
+    console.error(err)
     return error.handler(err, req, res, next);
   }
 };
@@ -107,6 +108,22 @@ const deleteOnePost = async (req, res, next) => {
     return error.handler(err, req, res, next);
   }
 };
+
+const uploadPostCover = async (req, res, next) => {
+  const user_id = req.headers['user-id'];
+  const { post_id } = req.params;
+  try {
+    const userId = await getId.validateAsync(user_id);
+    const id = await getId.validateAsync(post_id);
+    const post = await postsService.getPostById({
+      userId,
+      id,
+    });
+    return success.handler({ post }, req, res, next);
+  } catch (err) {
+    return error.handler(err, req, res, next);
+  }
+}
 
 const updateOnePost = async (req, res, next) => {
   const user_id = req.headers['user-id'];
@@ -172,4 +189,5 @@ module.exports = {
   getPostById,
   deleteOnePost,
   updateOnePost,
+  uploadPostCover,
 };

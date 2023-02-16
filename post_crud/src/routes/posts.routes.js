@@ -11,5 +11,6 @@ postsRoutes.get('/:post_id', postsController.getPostById);
 postsRoutes.delete('/:post_id', postsController.deleteOnePost);
 postsRoutes.put('/:post_id', postsController.updateOnePost);
 // postsRoutes.use('/:post_id/comments', commentsRoutes);
+postsRoutes.post('/:post_id/cover', postsController.uploadPostCover);
 
 module.exports = postsRoutes;
