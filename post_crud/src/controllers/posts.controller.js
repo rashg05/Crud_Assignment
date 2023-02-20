@@ -7,25 +7,25 @@ const {
   recoveryParamsValidation,
   updatePostValidation,
 } = require("../validations");
-const { checkChanges } = require('@yapsody/lib-utils');
-const axios = require('axios');
+const { checkChanges } = require("@yapsody/lib-utils");
+const axios = require("axios");
 const { getCommentsByPostId } = require("../services/comments.service");
-const multer  = require('multer');
+const multer = require("multer");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './public/uploads')
+    cb(null, "./public/uploads");
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    cb(null, file.originalname + '-' + uniqueSuffix)
-  }
-})
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, file.originalname + "-" + uniqueSuffix);
+  },
+});
 
-const upload = multer({ storage:storage });
+const upload = multer({ storage: storage });
 
 const addPosts = async (req, res, next) => {
-  const user_id = req.headers['user-id'];
+  const user_id = req.headers["user-id"];
   // const { user_id } = req.params;
   console.log(user_id, "---------->");
   try {
@@ -50,7 +50,7 @@ const addPosts = async (req, res, next) => {
 };
 
 const getAllPosts = async (req, res, next) => {
-  const user_id = req.headers['user-id'];
+  const user_id = req.headers["user-id"];
   // const { user_id } = req.params;
   console.log(user_id, "---------->");
   const reqData = { ...req.query };
@@ -78,7 +78,7 @@ const getAllPosts = async (req, res, next) => {
 };
 
 const getPostById = async (req, res, next) => {
-  const user_id = req.headers['user-id'];
+  const user_id = req.headers["user-id"];
   const { post_id } = req.params;
   try {
     const userId = await getId.validateAsync(user_id);
@@ -91,16 +91,16 @@ const getPostById = async (req, res, next) => {
       id,
     });
     console.info(posts, "-->");
-    const comments = await getCommentsByPostId({postId: id, userId: userId});
+    const comments = await getCommentsByPostId({ postId: id, userId: userId });
     return success.handler({ posts, comments }, req, res, next);
   } catch (err) {
-    console.error(err)
+    console.error(err);
     return error.handler(err, req, res, next);
   }
 };
 
 const deleteOnePost = async (req, res, next) => {
-  const user_id = req.headers['user-id'];
+  const user_id = req.headers["user-id"];
   const { post_id } = req.params;
   const { force_update } = req.query;
   console.log(user_id, "---------->");
@@ -122,14 +122,14 @@ const deleteOnePost = async (req, res, next) => {
 };
 
 const uploadPostCover = async (req, res, next) => {
-  const user_id = req.headers['user-id'];
+  const user_id = req.headers["user-id"];
   const { post_id } = req.params;
+  upload.single("postImage");
+  console.info(req.body, req.file);
+  res.send("ok");
   try {
     const userId = await getId.validateAsync(user_id);
     const id = await getId.validateAsync(post_id);
-    app.post('/cover', upload.single('postImage'), function (req, res, next) {
-      console.log(req.file, req.body)
-    })
     const post = await postsService.getPostById({
       userId,
       id,
@@ -138,10 +138,10 @@ const uploadPostCover = async (req, res, next) => {
   } catch (err) {
     return error.handler(err, req, res, next);
   }
-}
+};
 
 const updateOnePost = async (req, res, next) => {
-  const user_id = req.headers['user-id'];
+  const user_id = req.headers["user-id"];
   const { post_id } = req.params;
   const enableFlag = req.query.enable;
   console.log(user_id, "---------->");
@@ -181,14 +181,15 @@ const updateOnePost = async (req, res, next) => {
     // eslint-disable-next-line no-unused-vars
     const difference = checkChanges(
       {
-       title,
-       description,
+        title,
+        description,
       },
       item
     );
 
     item.title = title !== undefined ? title : item.title;
-    item.description = description !== undefined ? description : item.description;
+    item.description =
+      description !== undefined ? description : item.description;
 
     item = await item.save();
 

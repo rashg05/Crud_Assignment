@@ -50,7 +50,9 @@ const getPostById = async ({ userId, id }) => {
     where,
     // include: {model: CommentsModel}
   });
-
+  app.post('/cover', upload.single('postImage'), function (req, res, next) {
+    console.log(req.file, req.body)
+  })
   if (!post) {
     return error.throwNotFound({ custom_key: "DataNotFound", post: "postId" });
   }
