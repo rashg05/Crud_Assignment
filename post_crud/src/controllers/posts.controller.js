@@ -10,7 +10,19 @@ const {
 const { checkChanges } = require('@yapsody/lib-utils');
 const axios = require('axios');
 const { getCommentsByPostId } = require("../services/comments.service");
+const multer  = require('multer');
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/uploads')
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, file.originalname + '-' + uniqueSuffix)
+  }
+})
+
+const upload = multer({ storage:storage });
 
 const addPosts = async (req, res, next) => {
   const user_id = req.headers['user-id'];
@@ -115,6 +127,9 @@ const uploadPostCover = async (req, res, next) => {
   try {
     const userId = await getId.validateAsync(user_id);
     const id = await getId.validateAsync(post_id);
+    app.post('/cover', upload.single('postImage'), function (req, res, next) {
+      console.log(req.file, req.body)
+    })
     const post = await postsService.getPostById({
       userId,
       id,
