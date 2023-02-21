@@ -20,6 +20,7 @@
     "lintfix": "eslint ./src --fix"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.272.0",
     "@types/compression": "^1.7.2",
     "@yapsody/lib-handlers": "^1.0.56",
     "@yapsody/lib-utils": "^1.0.27",
