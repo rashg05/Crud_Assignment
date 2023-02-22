@@ -11,7 +11,6 @@ const addPosts = async ({ title, description, userId }) => {
     user_id: userId,
     title,
     description,
-    include: {model: TagsModel}
   });
   return post;
 };
