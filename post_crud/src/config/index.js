@@ -16,8 +16,10 @@ if (process.env.ENVIRONMENT === 'yap-local') {
     MYSQL_PASSWORD: process.env.MYSQL_PASSWORD || 'rootroot',
     MYSQL_DB_NAME: process.env.MYSQL_DB_NAME || 'users',
     MYSQL_PORT: process.env.MYSQL_PORT || 3306,
-    AWS_REGION: process.env.AWS_REGION || 'ap-south-1',
-    AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME || 'yap-post1-uploads',
+    AWS_REGION: process.env.REGION || 'ap-south-1',
+    AWS_BUCKET_NAME: process.env.NAME || 'yap-post1-uploads',
+    SECRET_ACCESS_KEY: process.env.ACCESS_SECRET,
+    SECRET_ACCESS_ID: process.env.ACCESS_KEY,
   };
   
   module.exports = config;
