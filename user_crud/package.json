@@ -20,6 +20,7 @@
     "lintfix": "eslint ./src --fix"
   },
   "dependencies": {
+    "@yapsody/lib-event-publisher": "^1.2.54",
     "@yapsody/lib-handlers": "^1.0.56",
     "@yapsody/lib-utils": "^1.0.27",
     "@yapsody/lib-validations": "^2.0.10",
@@ -39,7 +40,7 @@
     "chai": "^4.3.7",
     "chai-http": "^4.3.0",
     "dotenv": "^16.0.3",
-    "mocha": "^10.1.0",
+    "mocha": "^10.2.0",
     "nodemon": "^2.0.20",
     "nyc": "^15.1.0"
   }
